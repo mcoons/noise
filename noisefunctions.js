@@ -1,4 +1,4 @@
-let functionNumber = 0;
+let functionNumber = 7;
 
 document.querySelectorAll("input").forEach(radio => {
     radio.addEventListener("click", radioChange)
