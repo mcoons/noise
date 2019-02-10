@@ -258,17 +258,11 @@ function brainScan(x, y, z) {
 }
 
 function stained2(x, y, z) {
-
-    // let v1 = noise.simplex3((x + z * 15) / 25, y / 25, z);
-    // let v2 = noise.perlin3((x + z * 15) / 85, y / 55, z);
-
     let separation = 15;
-
     let v1 = noise.simplex3((x) / 25, y / 25, z);
     let v2 = noise.perlin3(x / 85, y / 55, z);
 
     v1 = (v1 + 2) / Math.abs(v1 * separation)
-    // v1 = (v1+2 ) / (v1 * separation)
 
     let data = {
         color: {
@@ -277,18 +271,15 @@ function stained2(x, y, z) {
             b: (Math.max(-.5, -Math.abs(Math.sin(v1 / 50) / 5) * 50) > -.45) ? 300 - 255 * Math.sin(v2 / 2) : 0,
             a: 255
         },
-        // meshDisplacement: Math.max(-.5, -Math.abs( Math.sin(v1/50)/5)*50),  
         meshDisplacement: Math.max(-.5, -Math.abs(Math.sin(v1 / 50) / 5) * 50),
         zInc: .01,
         boxHeight: 1
     }
 
     return data;
-
 }
 
 function goo(x, y, z) {
-
     let v1 = noise.simplex3((x) / 50, y / 50, z);
     let v2 = noise.perlin3(x / 50, y / 50, z);
     let v3 = noise.perlin3(x / 80, y / 80, z);
@@ -309,5 +300,4 @@ function goo(x, y, z) {
     }
 
     return data;
-
 }

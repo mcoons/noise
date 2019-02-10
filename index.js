@@ -1,13 +1,10 @@
-// http://haptic-data.com/toxiclibsjs/
 
-let z=1;
-
-let w, h,
+let z=1,
+    w, h,
     box1, box2, box3, box4,
-    ground;
-
-var myDynamicTexture;
-var sphereCtx;
+    ground,
+    myDynamicTexture,
+    sphereCtx;
 
 let ctx = document.getElementById(`bg-perlin`).getContext('2d');
 w = ctx.canvas.width;
@@ -72,10 +69,7 @@ var createScene = function (engine) {
     // objectMaterial.specularPower = 10.0;
 	// objectMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
 
-
     materialCtx = myDynamicTexture.getContext();
-
-
 
     var sphere1 = BABYLON.Mesh.CreateIcoSphere("sphere", {radius: 2, subdivisions: 51, updatable: true}, scene)
     sphere1.position = new BABYLON.Vector3(-4, 0, -13);
@@ -109,9 +103,6 @@ var createScene = function (engine) {
     torusKnot1.position = new BABYLON.Vector3(-13, 0, -4);
     torusKnot1.material = objectMaterial;
 
-
-
-
     return scene;
 };
 
@@ -119,20 +110,13 @@ function drawTexture(noiseFunction) {
 
     // get the 3D ground plane vertices
     let groundVertices = ground.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-
     let vertexDataIndex = 0;
-
-    // var colors = ground.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-    // if (!colors) colors=[];
-
-    // let colors = [];
 
     //  get the 2d canvas image pixels
     let canvasData = ctx.getImageData(0, 0, w, h);
     let canvasDataIndex = 0;
 
     let colorsBuffer = [];
-
     let data = {};
 
     for (x = 0; x < w; x++) {
@@ -155,13 +139,6 @@ function drawTexture(noiseFunction) {
             colorsBuffer.push(data.color.b / 255);
             colorsBuffer.push(data.color.a / 255);
 
-
-            // colors[canvasDataIndex + 0] = data.color.r / 255;
-            // colors[canvasDataIndex + 1] = data.color.g / 255;
-            // colors[canvasDataIndex + 2] = data.color.b / 255;
-            // colors[canvasDataIndex + 3] = data.color.a / 255;
-
-
             // set y value of ground vertex data
             groundVertices[vertexDataIndex + 1] = data.meshDisplacement;
 
@@ -171,13 +148,14 @@ function drawTexture(noiseFunction) {
     // update the 2D canvas image
     ctx.putImageData(canvasData, 0, 0);
     materialCtx.putImageData(canvasData, 0, 0);
+
+    // update dynamic texture for objects to match 2D canvas
     myDynamicTexture.update();
     
     // update the 3D babylon ground plane
     ground.updateVerticesData(BABYLON.VertexBuffer.PositionKind, groundVertices);
     ground.setVerticesData(BABYLON.VertexBuffer.ColorKind, colorsBuffer);
     
-
     // apply custom increment to z
     z = z + data.zInc;
 
