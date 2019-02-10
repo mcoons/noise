@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Noise</title>
+    <script src="https://cdn.babylonjs.com/babylon.js" defer></script>
+    <!-- <script src="https://code.jquery.com/pep/0.4.3/pep.js" defer></script> -->
+
+    <script src="jnoise.js" defer></script>
+    <script src="noisefunctions.js" defer></script>
+    <script src="index.js" defer></script>
+    <link rel="stylesheet" href="index.css" type="text/css" media="all">
+</head>
+
+<body>
+    <div id="container">
+        <div id="leftside">
+            <canvas class="perlin" id="bg-perlin" width=400 height=400></canvas>
+            <h3>Select Function Type</h3>
+            <form>
+                <div><input type="radio" name="function" id="perlinBasic" checked value=0><label for="perlinBasic">Basic Perlin Noise</label></div>
+                <div><input type="radio" name="function" id="simplexBasic" value=2><label for="simplexBasic">Basic Simplex Noise</label></div>
+                <div><input type="radio" name="function" id="perlinAnimated" value=1><label for="perlinBasic">Animated Perlin Noise</label></div>
+                <div><input type="radio" name="function" id="simplexAnimated" value=3><label for="simplexAnimated">Animated Simplex Noise</label></div>
+                <div><input type="radio" name="function" id="perlinCloud" value=4><label for="perlinCloud"></label>Perlin Cloud</label></div>
+                <div><input type="radio" name="function" id="simplexCloud" value=5><label for="simplexCloud"></label>Simplex Cloud</label></div>
+                <div><input type="radio" name="function" id="goo" value=6><label for="goo"></label>Goo</label></div>
+                <div><input type="radio" name="function" id="sinMaze" value=7><label for="sinMaze"></label>SIN() Maze</label></div>
+                <div><input type="radio" name="function" id="stainedGlass" value=8><label for="stainedGlass"></label>Molten Stained Glass</label></div>
+                <div><input type="radio" name="function" id="brainScan" value=9><label for="brainScan"></label>Brain Scan</label></div>
+                <div><input type="radio" name="function" id="bloodCells" value=10><label for="bloodCells"></label>Blood Cells</label></div>
+            </form>
+        </div>
+        <div id="rightside">
+            <canvas class="babylon" id="bg-babylon" width=650 height=650></canvas>
+        </div>
+    </div>
+</body>
+
+</html>
