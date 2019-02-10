@@ -303,9 +303,9 @@ function goo(x, y, z) {
             a: 255
         },
 
-        meshDisplacement: ((va - v1) + (v2 - va) + (va - v3)) / 2 - .5,
+        meshDisplacement: ((va - v1) + (v2 - va) + (va - v3)) / 2,
         zInc: .01,
-        boxHeight: 1.25
+        boxHeight: 2.25
     }
 
     return data;

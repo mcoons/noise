@@ -6,6 +6,9 @@ let w, h,
     box1, box2, box3, box4,
     ground;
 
+var myDynamicTexture;
+var sphereCtx;
+
 let ctx = document.getElementById(`bg-perlin`).getContext('2d');
 w = ctx.canvas.width;
 h = ctx.canvas.height;
@@ -59,6 +62,56 @@ var createScene = function (engine) {
     ground = BABYLON.Mesh.CreateGround('ground1', 20, 20, w-1, scene, true);
     ground.material = new BABYLON.StandardMaterial("gmat", scene);
 
+    myDynamicTexture = new BABYLON.DynamicTexture("objecttexture", {width:400, height:400}, scene);
+    var objectMaterial = new BABYLON.StandardMaterial("Mat", scene);                    
+    objectMaterial.diffuseTexture = myDynamicTexture;
+    // objectMaterial.bumpTexture = myDynamicTexture;
+    // objectMaterial.useParallax = true;
+    // objectMaterial.useParallaxOcclusion = true;
+    // objectMaterial.parallaxScaleBias = 0.5;
+    // objectMaterial.specularPower = 10.0;
+	// objectMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
+
+    materialCtx = myDynamicTexture.getContext();
+
+
+
+    var sphere1 = BABYLON.Mesh.CreateIcoSphere("sphere", {radius: 2, subdivisions: 51, updatable: true}, scene)
+    sphere1.position = new BABYLON.Vector3(-4, 0, -13);
+    sphere1.material = objectMaterial;
+
+    var sphere2 = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 4, updatable:true}, scene);
+    sphere2.position = new BABYLON.Vector3(4, 0, 13);
+    sphere2.material = objectMaterial;
+
+    var cube = BABYLON.MeshBuilder.CreateBox("box", {size: 3.5}, scene);
+    cube.position = new BABYLON.Vector3(-4, 0, 13);
+    cube.material = objectMaterial;
+
+    var cone = BABYLON.MeshBuilder.CreateCylinder("cone", {diameterTop: 0, diameterBottom:4, height:4, tessellation: 40, subdivisions:10}, scene);
+    cone.position = new BABYLON.Vector3(4, 0, -13);
+    cone.material = objectMaterial;
+
+    var cylinder = BABYLON.MeshBuilder.CreateCylinder("cylinder", {diameterTop: 4, diameterBottom:4, height:2, tessellation: 40, subdivisions:40}, scene);
+    cylinder.position = new BABYLON.Vector3(13, 0, 4);
+    cylinder.material = objectMaterial;
+
+    var torusKnot2 = BABYLON.MeshBuilder.CreateTorusKnot("tk", {radius: 1, tube:.3, radialSegments:38, q: 6, p:1}, scene);
+    torusKnot2.position = new BABYLON.Vector3(13, 0, -4);
+    torusKnot2.material = objectMaterial;
+
+    var torus = BABYLON.MeshBuilder.CreateTorus("torus", {diameter: 2.5, thickness: 1, tessellation: 40}, scene);
+    torus.position = new BABYLON.Vector3(-13, 0, 4);
+    torus.material = objectMaterial;
+
+    var torusKnot1 = BABYLON.MeshBuilder.CreateTorusKnot("tk", {radius: 1, radialSegments:64}, scene);
+    torusKnot1.position = new BABYLON.Vector3(-13, 0, -4);
+    torusKnot1.material = objectMaterial;
+
+
+
+
     return scene;
 };
 
@@ -66,12 +119,13 @@ function drawTexture(noiseFunction) {
 
     // get the 3D ground plane vertices
     let groundVertices = ground.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+
     let vertexDataIndex = 0;
 
     // var colors = ground.getVerticesData(BABYLON.VertexBuffer.ColorKind);
     // if (!colors) colors=[];
 
-    let colors = [];
+    // let colors = [];
 
     //  get the 2d canvas image pixels
     let canvasData = ctx.getImageData(0, 0, w, h);
@@ -102,10 +156,10 @@ function drawTexture(noiseFunction) {
             colorsBuffer.push(data.color.a / 255);
 
 
-            colors[canvasDataIndex + 0] = data.color.r / 255;
-            colors[canvasDataIndex + 1] = data.color.g / 255;
-            colors[canvasDataIndex + 2] = data.color.b / 255;
-            colors[canvasDataIndex + 3] = data.color.a / 255;
+            // colors[canvasDataIndex + 0] = data.color.r / 255;
+            // colors[canvasDataIndex + 1] = data.color.g / 255;
+            // colors[canvasDataIndex + 2] = data.color.b / 255;
+            // colors[canvasDataIndex + 3] = data.color.a / 255;
 
 
             // set y value of ground vertex data
@@ -116,11 +170,14 @@ function drawTexture(noiseFunction) {
     }
     // update the 2D canvas image
     ctx.putImageData(canvasData, 0, 0);
+    materialCtx.putImageData(canvasData, 0, 0);
+    myDynamicTexture.update();
     
     // update the 3D babylon ground plane
     ground.updateVerticesData(BABYLON.VertexBuffer.PositionKind, groundVertices);
     ground.setVerticesData(BABYLON.VertexBuffer.ColorKind, colorsBuffer);
     
+
     // apply custom increment to z
     z = z + data.zInc;
 
