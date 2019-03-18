@@ -38,7 +38,7 @@ window.onload = function(){
 var createScene = function (engine) {
 
     var scene  = new BABYLON.Scene(engine);
-    var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 4, 30, new BABYLON.Vector3(0, 0,0), scene);
+    var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 4, 35, new BABYLON.Vector3(0, 0, 0), scene);
 
     var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(50, 100, 100), scene);
     var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(10, 10, 15), scene);
@@ -58,6 +58,7 @@ var createScene = function (engine) {
 
     ground = BABYLON.Mesh.CreateGround('ground1', 20, 20, w-1, scene, true);
     ground.material = new BABYLON.StandardMaterial("gmat", scene);
+    ground.material.backFaceCulling = false;
 
     myDynamicTexture = new BABYLON.DynamicTexture("objecttexture", {width:400, height:400}, scene);
     var objectMaterial = new BABYLON.StandardMaterial("Mat", scene);                    
@@ -71,9 +72,9 @@ var createScene = function (engine) {
 
     materialCtx = myDynamicTexture.getContext();
 
-    var sphere1 = BABYLON.Mesh.CreateIcoSphere("sphere", {radius: 2, subdivisions: 51, updatable: true}, scene)
-    sphere1.position = new BABYLON.Vector3(-4, 0, -13);
-    sphere1.material = objectMaterial;
+    // var sphere1 = BABYLON.Mesh.CreateIcoSphere("sphere", {radius: 2, subdivisions: 51, updatable: true}, scene)
+    // sphere1.position = new BABYLON.Vector3(-4, 0, -13);
+    // sphere1.material = objectMaterial;
 
     var sphere2 = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 4, updatable:true}, scene);
     sphere2.position = new BABYLON.Vector3(4, 0, 13);
@@ -83,25 +84,25 @@ var createScene = function (engine) {
     cube.position = new BABYLON.Vector3(-4, 0, 13);
     cube.material = objectMaterial;
 
-    var cone = BABYLON.MeshBuilder.CreateCylinder("cone", {diameterTop: 0, diameterBottom:4, height:4, tessellation: 40, subdivisions:10}, scene);
-    cone.position = new BABYLON.Vector3(4, 0, -13);
-    cone.material = objectMaterial;
+    // var cone = BABYLON.MeshBuilder.CreateCylinder("cone", {diameterTop: 0, diameterBottom:4, height:4, tessellation: 40, subdivisions:10}, scene);
+    // cone.position = new BABYLON.Vector3(4, 0, -13);
+    // cone.material = objectMaterial;
 
-    var cylinder = BABYLON.MeshBuilder.CreateCylinder("cylinder", {diameterTop: 4, diameterBottom:4, height:2, tessellation: 40, subdivisions:40}, scene);
-    cylinder.position = new BABYLON.Vector3(13, 0, 4);
-    cylinder.material = objectMaterial;
+    // var cylinder = BABYLON.MeshBuilder.CreateCylinder("cylinder", {diameterTop: 4, diameterBottom:4, height:2, tessellation: 40, subdivisions:40}, scene);
+    // cylinder.position = new BABYLON.Vector3(13, 0, 4);
+    // cylinder.material = objectMaterial;
 
-    var torusKnot2 = BABYLON.MeshBuilder.CreateTorusKnot("tk", {radius: 1, tube:.3, radialSegments:38, q: 6, p:1}, scene);
-    torusKnot2.position = new BABYLON.Vector3(13, 0, -4);
-    torusKnot2.material = objectMaterial;
+    // var torusKnot2 = BABYLON.MeshBuilder.CreateTorusKnot("tk", {radius: 1, tube:.3, radialSegments:38, q: 6, p:1}, scene);
+    // torusKnot2.position = new BABYLON.Vector3(13, 0, -4);
+    // torusKnot2.material = objectMaterial;
 
-    var torus = BABYLON.MeshBuilder.CreateTorus("torus", {diameter: 2.5, thickness: 1, tessellation: 40}, scene);
-    torus.position = new BABYLON.Vector3(-13, 0, 4);
-    torus.material = objectMaterial;
+    // var torus = BABYLON.MeshBuilder.CreateTorus("torus", {diameter: 2.5, thickness: 1, tessellation: 40}, scene);
+    // torus.position = new BABYLON.Vector3(-13, 0, 4);
+    // torus.material = objectMaterial;
 
-    var torusKnot1 = BABYLON.MeshBuilder.CreateTorusKnot("tk", {radius: 1, radialSegments:64}, scene);
-    torusKnot1.position = new BABYLON.Vector3(-13, 0, -4);
-    torusKnot1.material = objectMaterial;
+    // var torusKnot1 = BABYLON.MeshBuilder.CreateTorusKnot("tk", {radius: 1, radialSegments:64}, scene);
+    // torusKnot1.position = new BABYLON.Vector3(-13, 0, -4);
+    // torusKnot1.material = objectMaterial;
 
     return scene;
 };
@@ -145,6 +146,7 @@ function drawTexture(noiseFunction) {
             vertexDataIndex = vertexDataIndex + 3;
         }
     }
+    
     // update the 2D canvas image
     ctx.putImageData(canvasData, 0, 0);
     materialCtx.putImageData(canvasData, 0, 0);
