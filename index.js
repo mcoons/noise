@@ -1,5 +1,4 @@
-
-let z=1,
+let z = 1,
     w, h,
     box1, box2, box3, box4,
     ground,
@@ -10,9 +9,9 @@ let ctx = document.getElementById(`bg-perlin`).getContext('2d');
 w = ctx.canvas.width;
 h = ctx.canvas.height;
 
-window.onload = function(){
+window.onload = function () {
     var canvas = document.getElementById("bg-babylon");
- 
+
     // Check support
     if (!BABYLON.Engine.isSupported()) {
         window.alert('Browser not supported');
@@ -20,57 +19,77 @@ window.onload = function(){
         // Babylon is supported
         var engine = new BABYLON.Engine(canvas, true);
         var scene = createScene(engine);
- 
+
         scene.activeCamera.attachControl(canvas);
- 
+
         engine.runRenderLoop(function () {
             drawTexture(noiseFunctions[functionNumber]);
             scene.render();
         });
- 
+
         // Resize
         window.addEventListener("resize", function () {
             engine.resize();
         });
-    } 
+    }
 };
 
 function createScene(engine) {
 
-    var scene  = new BABYLON.Scene(engine);
+    var scene = new BABYLON.Scene(engine);
     var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 4, 35, new BABYLON.Vector3(0, 0, 0), scene);
 
     var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(50, 100, 100), scene);
     var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(10, 10, 15), scene);
     light2.intensity = 5;
 
-    box1 = BABYLON.MeshBuilder.CreateBox("box", { width: 20.25, depth:.25 }, scene);
+    box1 = BABYLON.MeshBuilder.CreateBox("box", {
+        width: 20.25,
+        depth: .25
+    }, scene);
     box1.position = new BABYLON.Vector3(0, 0, 10);
 
-    box2 = BABYLON.MeshBuilder.CreateBox("box", { width: 20.25, depth:.25 }, scene);
+    box2 = BABYLON.MeshBuilder.CreateBox("box", {
+        width: 20.25,
+        depth: .25
+    }, scene);
     box2.position = new BABYLON.Vector3(0, 0, -10);
 
-    box3 = BABYLON.MeshBuilder.CreateBox("box", { width: .25, depth: 20 }, scene);
+    box3 = BABYLON.MeshBuilder.CreateBox("box", {
+        width: .25,
+        depth: 20
+    }, scene);
     box3.position = new BABYLON.Vector3(10, 0, 0);
 
-    box4 = BABYLON.MeshBuilder.CreateBox("box", { width: .25, depth: 20 }, scene);
+    box4 = BABYLON.MeshBuilder.CreateBox("box", {
+        width: .25,
+        depth: 20
+    }, scene);
     box4.position = new BABYLON.Vector3(-10, 0, 0);
 
-    ground = BABYLON.Mesh.CreateGround('ground1', 20, 20, w-1, scene, true);
+    ground = BABYLON.Mesh.CreateGround('ground1', 20, 20, w - 1, scene, true);
     ground.material = new BABYLON.StandardMaterial("gmat", scene);
     ground.material.backFaceCulling = false;
 
-    myDynamicTexture = new BABYLON.DynamicTexture("objecttexture", {width:400, height:400}, scene);
-    var objectMaterial = new BABYLON.StandardMaterial("Mat", scene);                    
+    myDynamicTexture = new BABYLON.DynamicTexture("objecttexture", {
+        width: 400,
+        height: 400
+    }, scene);
+    var objectMaterial = new BABYLON.StandardMaterial("Mat", scene);
     objectMaterial.diffuseTexture = myDynamicTexture;
 
     materialCtx = myDynamicTexture.getContext();
 
-    var sphere2 = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 4, updatable:true}, scene);
+    var sphere2 = BABYLON.MeshBuilder.CreateSphere("sphere", {
+        diameter: 4,
+        updatable: true
+    }, scene);
     sphere2.position = new BABYLON.Vector3(4, 0, 13);
     sphere2.material = objectMaterial;
 
-    var cube = BABYLON.MeshBuilder.CreateBox("box", {size: 3.5}, scene);
+    var cube = BABYLON.MeshBuilder.CreateBox("box", {
+        size: 3.5
+    }, scene);
     cube.position = new BABYLON.Vector3(-4, 0, 13);
     cube.material = objectMaterial;
 
@@ -116,18 +135,18 @@ function drawTexture(noiseFunction) {
             vertexDataIndex = vertexDataIndex + 3;
         }
     }
-    
+
     // update the 2D canvas image
     ctx.putImageData(canvasData, 0, 0);
     materialCtx.putImageData(canvasData, 0, 0);
 
     // update dynamic texture for objects to match 2D canvas
     myDynamicTexture.update();
-    
+
     // update the 3D babylon ground plane
     ground.updateVerticesData(BABYLON.VertexBuffer.PositionKind, groundVertices);
     ground.setVerticesData(BABYLON.VertexBuffer.ColorKind, colorsBuffer);
-    
+
     // apply custom increment to z
     z = z + data.zInc;
 
@@ -135,7 +154,7 @@ function drawTexture(noiseFunction) {
     scaleBox(data);
 }
 
-function scaleBox(data){
+function scaleBox(data) {
     if (data.boxHeight) {
         box1.scaling = new BABYLON.Vector3(1, data.boxHeight, 1);
         box2.scaling = new BABYLON.Vector3(1, data.boxHeight, 1);
@@ -145,6 +164,6 @@ function scaleBox(data){
         box1.scaling = new BABYLON.Vector3(1, 1.5, 1);
         box2.scaling = new BABYLON.Vector3(1, 1.5, 1);
         box3.scaling = new BABYLON.Vector3(1, 1.5, 1);
-        box4.scaling = new BABYLON.Vector3(1, 1.5, 1);  
+        box4.scaling = new BABYLON.Vector3(1, 1.5, 1);
     }
 }
