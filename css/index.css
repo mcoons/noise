@@ -8,13 +8,13 @@ html, body {
     justify-content: space-between;
     flex-direction: row;
     height: 100%;
-    border: 3px solid gray;
+    /* border: 3px solid gray; */
     padding: 5px;
 }
 
 #leftside {
     height: 100%;
-    border: 3px solid gray;
+    /* border: 3px solid gray; */
     padding: 5px;
 }
 
@@ -30,7 +30,7 @@ html, body {
 
 #rightside {
     height: 100%;
-    border: 3px solid gray;
+    /* border: 3px solid gray; */
     padding: 5px;
 }
 
@@ -43,7 +43,7 @@ h3 {
 }
 
 form {
-    border: 3px solid gray;
+    /* border: 3px solid gray; */
     padding: 5px;
 }
 
