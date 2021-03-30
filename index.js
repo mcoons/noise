@@ -23,7 +23,7 @@ window.onload = function () {
         scene.activeCamera.attachControl(canvas);
 
 
-
+/*
 
         scene.onPointerObservable.add((pointerInfo) => {
             switch (pointerInfo.type) {
@@ -64,7 +64,7 @@ window.onload = function () {
             }
         });
 
-        
+ */       
 
         engine.runRenderLoop(function () {
             drawTexture(noiseFunctions[functionNumber]);
